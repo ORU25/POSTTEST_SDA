@@ -1,10 +1,3 @@
-// ## SOAL 4
-
-// Anda memiliki sebuah circular doubly linked list yang datanya sudah terurut (ascending). Buatlah fungsi untuk menyisipkan sebuah node baru ke dalam list tersebut sehingga urutannya tetap terjaga.
-
-// Struktur Data:
-
-// ```c++
 #include <iostream>
 using namespace std;
 
@@ -13,15 +6,7 @@ struct Node {
     Node* next;
     Node* prev;
 };
-// ```
 
-// Lengkapi Fungsi berikut:
-
-// ```c++
-/*
- * Fungsi ini menerima referensi ke pointer head dan data yang akan disisipkan.
- * Pointer head bisa berubah jika data baru menjadi elemen terkecil.
- */
 void sortedInsert(Node *&head_ref, int data) {
     Node* newNode = new Node{data, nullptr, nullptr};
 
@@ -33,9 +18,8 @@ void sortedInsert(Node *&head_ref, int data) {
         return;
     }
 
-    // --- LENGKAPI DI SINI ---
-    // Kasus 2: Data baru lebih kecil dari head (sisipkan di awal)
-    // 1. Jika data < head_ref->data, sisipkan sebelum head dan update head_ref
+
+    //jika data lebih kecil dari head, sisipkan di awal
     if(data < head_ref->data) {
         Node* temp = head_ref;
         newNode->next = head_ref;
@@ -46,19 +30,14 @@ void sortedInsert(Node *&head_ref, int data) {
         return;
     }
 
-    // Kasus 3: Cari posisi yang tepat (tengah/akhir)
-    // 1. Gunakan pointer current mulai dari head_ref
-    // 2. Loop: while (current->next != head_ref && current->next->data < data)
-    // 3. Setelah loop, sisipkan newNode setelah current
-    // 4. Pastikan update semua pointer next dan prev dengan benar
-    //
-    // CATATAN: Jika data sama dengan existing data, sisipkan setelahnya
-    // --- LENGKAPI DI SINI ---
+    //simpan posisi saat ini
     Node* current = head_ref;
+    // cari posisi yang tepat untuk sisipan
     while(current->next != head_ref && current->next->data < data) {
         current = current->next;
     }
     
+    // sisipkan node baru setelah current
     newNode->next = current->next;
     newNode->prev = current;
     current->next->prev = newNode;
@@ -99,10 +78,3 @@ int main()
 
     return 0;
 }
-// ```
-
-// Hanya Info:
-
-// Karena listnya sirkular dan terurut, kita bisa dengan cepat memeriksa apakah node baru harus diletakkan di awal (lebih kecil dari head) atau di akhir (lebih besar dari tail/head->prev). Jika tidak, kita baru melakukan traversal untuk mencari posisi di tengah.
-
-// ---

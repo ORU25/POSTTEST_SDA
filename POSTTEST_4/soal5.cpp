@@ -1,10 +1,3 @@
-// ## SOAL 5
-
-// Buat sebuah fungsi untuk menukar posisi node head dan node tail dalam sebuah circular doubly linked list tanpa menukar datanya, melainkan dengan memanipulasi pointernya.
-
-// Struktur Data:
-
-// ```c++
 #include <iostream>
 using namespace std;
 
@@ -13,15 +6,7 @@ struct Node {
     Node* next;
     Node* prev;
 };
-// ```
 
-// Lengkapi Fungsi berikut:
-
-// ```c++
-// /*
-//  * Fungsi ini menerima referensi ke pointer head dan tail.
-//  * Pointer head dan tail akan di-update setelah penukaran.
-//  */
 void exchangeHeadAndTail(Node *&head_ref) {
     // Hanya berjalan jika ada 2 node atau lebih
     if (head_ref == nullptr || head_ref->next == head_ref) {
@@ -37,25 +22,31 @@ void exchangeHeadAndTail(Node *&head_ref) {
     // Update koneksi: tail_prev <-> tail <-> head_next
     // Update koneksi: head_next <- ... -> tail_prev <-> head <-> tail_prev
     // terakhir Update head_ref
+
+    // jika hanya ada 2 node pindah head_ref ke tail
     if(head->next == tail) {
         head_ref = tail;
         return;
     }
 
+    //simpan neighbor
     Node* head_next = head->next;
     Node* tail_prev = tail->prev;
 
+    // Update koneksi head_next dengan tail
     head_next->prev = tail;
     tail->next = head_next;
-    tail->prev = head;
 
+    // Update koneksi tail_prev dengan head
     tail_prev->next = head;
     head->prev = tail_prev;
+
+    // Update koneksi head dengan tail
+    tail->prev = head;
     head->next = tail;
 
+    // Update head_ref ke tail
     head_ref = tail;
-
-    // kondisi bisa kalian sesuaikan sendiri tapi usahakan outputnya sama
 }
 
 void printList(Node *head_ref)
@@ -116,8 +107,3 @@ int main()
 
     return 0;
 }
-// ```
-
-// Hanya Info:
-
-// Kunci untuk soal ini adalah menggambar dan memvisualisasikan koneksi antar node. Dengan menyimpan node tetangga (head_next dan tail_prev) sebelum melakukan perubahan, kita memiliki semua referensi yang dibutuhkan untuk menyambungkan kembali list dalam urutan yang baru tanpa kehilangan node manapun.
